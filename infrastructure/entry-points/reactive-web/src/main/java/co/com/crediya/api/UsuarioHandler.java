@@ -32,7 +32,17 @@ public class UsuarioHandler {
                     required = true,
                     content = @Content(
                             schema = @Schema(
-                                    implementation = Usuario.class
+                                    example = "{\n" +
+                                            "\n" +
+                                            "  \"nombre\": \"jorge\",\n" +
+                                            "  \"apellido\": \"quintero\",\n" +
+                                            "  \"email\": \"jorgequintero142@gmail.com\",\n" +
+                                            "  \"documentoIdentidad\": \"101559999\",\n" +
+                                            "  \"fechaNacimiento\": \"1986-08-28\",\n" +
+                                            "  \"direccion\": \"calle 123 23-23\",\n" +
+                                            "  \"telefono\": \"3001231212\",\n" +
+                                            "  \"salarioBase\": 1500000\n" +
+                                            "}"
                             )
                     )
             ),
@@ -41,14 +51,35 @@ public class UsuarioHandler {
                             responseCode = "200",
                             description = "Usuario creado",
                             content = @Content(
-                                    schema = @io.swagger.v3.oas.annotations.media.Schema(
-                                            implementation = Usuario.class
+                                    schema = @Schema(
+                                            example = "{\n" +
+                                                    "  \"idUsuario\": 9,\n" +
+                                                    "  \"nombre\": \"jorge\",\n" +
+                                                    "  \"apellido\": \"quintero\",\n" +
+                                                    "  \"email\": \"jorgequintero142@gmail.com\",\n" +
+                                                    "  \"documentoIdentidad\": \"101559999\",\n" +
+                                                    "  \"fechaNacimiento\": \"1986-08-28\",\n" +
+                                                    "  \"direccion\": \"calle 123 23-23\",\n" +
+                                                    "  \"telefono\": \"3001231212\",\n" +
+                                                    "  \"salarioBase\": 1500000\n" +
+                                                    "}"
                                     )
                             )
                     ),
                     @ApiResponse(
                             responseCode = "400",
-                            description = "Validación fallida"
+                            description = "Validación fallida",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(
+                                            description = "Respuesta de error",
+                                            example = "     {\n" +
+                                                    "  \"error\": \"Validación fallida\",\n" +
+                                                    "  \"message\": \"Fecha de nacimiento no tiene un formato válido\",\n" +
+                                                    "  \"status\": 400\n" +
+                                                    "}"
+                                    )
+                            )
                     )
             }
     )
@@ -78,7 +109,14 @@ public class UsuarioHandler {
                             description = "Usuario encontrado",
                             content = @Content(schema = @Schema(implementation = Usuario.class))
                     ),
-                    @ApiResponse(responseCode = "404", description = "Usuario no encontrado")
+                    @ApiResponse(responseCode = "404", description = "Usuario no encontrado",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(
+                                            description = "Respuesta de error",
+                                            example = "{ \"error\": \"No encontrado\", \"message\": \"Usuario no encontrado con documento: 123456\", \"status\": 404 }"
+                                    )
+                            ))
             }
     )
     public Mono<ServerResponse> buscarPorDocumento(ServerRequest serverRequest) {
