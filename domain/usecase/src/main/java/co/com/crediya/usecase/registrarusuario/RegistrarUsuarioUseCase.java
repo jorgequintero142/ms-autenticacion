@@ -3,6 +3,7 @@ package co.com.crediya.usecase.registrarusuario;
 import co.com.crediya.model.usuario.Usuario;
 import co.com.crediya.model.usuario.exceptions.ParametroNoValidoException;
 import co.com.crediya.model.usuario.gateways.UsuarioRepository;
+import co.com.crediya.usecase.errors.ErroresEnum;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
 
@@ -21,19 +22,21 @@ public class RegistrarUsuarioUseCase {
 
     public Mono<Usuario> registrar(Usuario usuario) {
         return
-                validarEmail(usuario)
-                        .flatMap(this::validarUsuario)
+                validarUsuario(usuario)
                         .flatMap(usuarioRepositorio::registrar);
     }
 
-
     private Mono<Usuario> validarUsuario(Usuario usuario) {
-        if (!esValidoNombre(usuario.getApellido())) {
-            return Mono.error(new ParametroNoValidoException("El apellido  no tiene un formato válido"));
-        }
+        return validarDatosBasicos(usuario)
+                .then(validarEmail(usuario));
+    }
 
+    private Mono<Void> validarDatosBasicos(Usuario usuario) {
+        if (!esValidoNombre(usuario.getApellido())) {
+            return Mono.error(new ParametroNoValidoException(ErroresEnum.ERROR_APELLIDO.getMensaje()));
+        }
         if (!esValidoNombre(usuario.getNombre())) {
-            return Mono.error(new ParametroNoValidoException("El nombre  no tiene un formato válido"));
+            return Mono.error(new ParametroNoValidoException(ErroresEnum.ERROR_NOMBRE.getMensaje()));
         }
         if (usuario.getSalarioBase() == null ||
                 usuario.getSalarioBase().compareTo(SALARIO_MINIMO_PERMITIDO) < 0 ||
@@ -44,39 +47,30 @@ public class RegistrarUsuarioUseCase {
         }
         if (esVacioNulo(usuario.getDocumentoIdentidad()) || usuario.getDocumentoIdentidad().length() < this.MINIMA_LONGITUD_DOCUMENTO) {
             return Mono.error(new ParametroNoValidoException(
-                    "El documento de identidad no tiene el formato esperado"
+                    ErroresEnum.ERROR_DOCUMENTO_IDENTIDAD.getMensaje()
             ));
         }
         if (!esValidaFecha(usuario.getFechaNacimiento())) {
             return Mono.error(new ParametroNoValidoException(
-                    "Fecha de nacimiento no tiene un formato válido"
+                    ErroresEnum.ERROR_FECHA_NACIMIENTO.getMensaje()
             ));
         }
-
-
         if (!esValidoElTelefono(usuario.getTelefono())) {
             return Mono.error(new ParametroNoValidoException(
-                    "El telefono no tiene un formato válido"
+                    ErroresEnum.ERROR_TELEFONO.getMensaje()
             ));
         }
-        return Mono.just(usuario);
+        return Mono.empty();
     }
 
 
     Mono<Usuario> validarEmail(Usuario usuario) {
         if (esVacioNulo(usuario.getEmail()) || !isOkEmail(usuario.getEmail())) {
-            return Mono.error(new ParametroNoValidoException("El email no tiene un formato válido"));
+            return Mono.error(new ParametroNoValidoException(ErroresEnum.ERROR_EMAIL.getMensaje()));
         }
         return usuarioRepositorio.buscarPorEmail(usuario.getEmail())
-                .hasElement()
-                .flatMap(existe -> {
-                    if (existe) {
-                        return Mono.error(new ParametroNoValidoException(
-                                "El email ya está registrado"
-                        ));
-                    }
-                    return Mono.just(usuario);
-                });
+                .flatMap(u -> Mono.error(new ParametroNoValidoException(ErroresEnum.ERROR_EMAIL_REGISTRADO.getMensaje())))
+                .switchIfEmpty(Mono.just(usuario)).cast(Usuario.class);
     }
 
     private boolean isOkEmail(String valor) {
