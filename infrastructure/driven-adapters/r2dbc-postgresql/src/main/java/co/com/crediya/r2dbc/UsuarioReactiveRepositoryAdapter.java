@@ -7,6 +7,8 @@ import co.com.crediya.r2dbc.helper.ReactiveAdapterOperations;
 import org.reactivecommons.utils.ObjectMapper;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Mono;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Repository
 public class UsuarioReactiveRepositoryAdapter extends ReactiveAdapterOperations<
@@ -16,6 +18,8 @@ public class UsuarioReactiveRepositoryAdapter extends ReactiveAdapterOperations<
         UsuarioReactiveRepository
 
         > implements UsuarioRepository {
+    private static final Logger logger = LoggerFactory.getLogger(UsuarioReactiveRepositoryAdapter.class);
+
     public UsuarioReactiveRepositoryAdapter(UsuarioReactiveRepository repository, ObjectMapper mapper) {
         super(repository, mapper, d -> mapper.map(d, Usuario.class));
     }
@@ -23,7 +27,12 @@ public class UsuarioReactiveRepositoryAdapter extends ReactiveAdapterOperations<
 
     @Override
     public Mono<Usuario> registrar(Usuario usuario) {
-        return super.save(usuario);
+        UsuarioEntity entity = mapper.map(usuario, UsuarioEntity.class);
+        return repository.save(entity)
+                .map(saved -> {
+                    return mapper.map(saved, Usuario.class);
+                })
+                .doOnNext(u -> logger.debug("Se ha registrado un nuevo usuario"));
     }
 
     @Override

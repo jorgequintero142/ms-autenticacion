@@ -27,7 +27,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 public class RouterRest {
     @Bean
     @RouterOperations({@RouterOperation(
-            path = "/api/v1/usuarios",
+            path = "/api/v1/soli",
             beanClass = UsuarioHandler.class,
             beanMethod = "registrar",
             operation = @Operation(

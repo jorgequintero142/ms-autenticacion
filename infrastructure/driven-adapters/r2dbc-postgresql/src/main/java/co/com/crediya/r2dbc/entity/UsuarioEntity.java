@@ -1,34 +1,32 @@
 package co.com.crediya.r2dbc.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
 
-import jakarta.persistence.Table;
 import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-@Table(name = "Usuario")
+@Table(name = "usuario")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Builder
-@Entity(name = "Usuario")
 public class UsuarioEntity {
     @Id
-    @Column(name = "id_usuario")
+    @Column("id_usuario")
     private Integer idUsuario;
     private String nombre;
     private String apellido;
     private String email;
-    @Column(name = "documento_identidad")
+    @Column("documento_identidad")
     private String documentoIdentidad;
-    @Column(name = "salario_base")
+    @Column("salario_base")
     private BigDecimal salarioBase;
-    @Column(name = "fecha_nacimiento")
+    @Column("fecha_nacimiento")
     private LocalDate fechaNacimiento;
     private String direccion;
     private String telefono;
