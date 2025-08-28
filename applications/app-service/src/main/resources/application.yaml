@@ -23,11 +23,6 @@ management:
 cors:
   allowed-origins: "http://localhost:4200,http://localhost:8080"
 
-routes:
-  paths:
-    tasks: "/api/v1/tasks"
-    tasksById: "/api/v1/tasks/{id}"
-
 adapters:
   r2dbc:
     host: "localhost"
@@ -36,3 +31,11 @@ adapters:
     schema: "public"
     username: "test"
     password: "P@55w0rd"
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: /api-docs   # endpoint JSON de OpenAPI
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html

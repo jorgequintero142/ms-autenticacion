@@ -15,14 +15,14 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder(toBuilder = true)
 public class Usuario {
-    private Integer id_usuario;
+    private Integer idUsuario;
     private String nombre;
     private String apellido;
     private String email;
-    private String documento_identidad;
-    private LocalDate fecha_nacimiento;
+    private String documentoIdentidad;
+    private LocalDate fechaNacimiento;
     private String direccion;
     private String telefono;
-    private BigDecimal salario_base;
+    private BigDecimal salarioBase;
 
 }

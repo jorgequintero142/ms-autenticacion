@@ -1,5 +1,7 @@
 package co.com.crediya.r2dbc.entity;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
 import jakarta.persistence.Table;
@@ -14,15 +16,20 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Builder
+@Entity(name = "Usuario")
 public class UsuarioEntity {
     @Id
-    private Integer id_usuario;
-    private String email;
-    private String documento_identidad;
-    private BigDecimal salario_base;
+    @Column(name = "id_usuario")
+    private Integer idUsuario;
     private String nombre;
     private String apellido;
-    private LocalDate fecha_nacimiento;
+    private String email;
+    @Column(name = "documento_identidad")
+    private String documentoIdentidad;
+    @Column(name = "salario_base")
+    private BigDecimal salarioBase;
+    @Column(name = "fecha_nacimiento")
+    private LocalDate fechaNacimiento;
     private String direccion;
     private String telefono;
 
