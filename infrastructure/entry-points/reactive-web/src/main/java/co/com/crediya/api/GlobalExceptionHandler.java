@@ -17,7 +17,7 @@ public class GlobalExceptionHandler {
         Map<String, Object> error = new HashMap<>();
         error.put("error", ex.getError());
         error.put("message", ex.getMessage());
-        error.put("status", ex.getHttpCodigo());
-        return Mono.just(ResponseEntity.status(HttpStatus.valueOf(ex.getHttpCodigo())).body(error));
+        error.put("status", ex.getCodigoEstado());
+        return Mono.just(ResponseEntity.status(HttpStatus.valueOf(ex.getCodigoEstado())).body(error));
     }
 }

@@ -6,6 +6,6 @@ public class ParametroNoValidoException extends AutenticacionException {
 
     public ParametroNoValidoException(String mensaje) {
 
-        super(mensaje, ParametroNoValidoException.ERROR, ParametroNoValidoException.HTTP_BAD_REQUEST);
+        super(mensaje, ParametroNoValidoException.ERROR, ParametroNoValidoException.ESTADO_NO_ENCONTRADO);
     }
 }
