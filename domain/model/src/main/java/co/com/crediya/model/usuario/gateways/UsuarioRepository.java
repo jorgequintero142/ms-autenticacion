@@ -9,5 +9,5 @@ public interface UsuarioRepository {
 
     Mono<Usuario> buscarPorEmail(String email);
 
-    Mono<Usuario> buscarPorDocumentIdentidad(String documentIdentidad);
+    Mono<Usuario> buscarPorDocumentoIdentidad(String documentoIdentidad);
 }

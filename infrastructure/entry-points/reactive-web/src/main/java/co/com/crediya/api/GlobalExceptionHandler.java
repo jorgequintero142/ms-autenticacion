@@ -1,7 +1,6 @@
 package co.com.crediya.api;
 
-import co.com.crediya.model.usuario.exceptions.NoEncontradoException;
-import co.com.crediya.model.usuario.exceptions.ParametroNoValidoException;
+import co.com.crediya.model.usuario.exceptions.AutenticacionException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -13,22 +12,12 @@ import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-    @ExceptionHandler(ParametroNoValidoException.class)
-    public Mono<ResponseEntity<Map<String, Object>>> manejar(ParametroNoValidoException ex) {
+    @ExceptionHandler(AutenticacionException.class)
+    public Mono<ResponseEntity<Map<String, Object>>> manejarErrores(AutenticacionException ex) {
         Map<String, Object> error = new HashMap<>();
-        error.put("error", "Validación fallida");
+        error.put("error", ex.getError());
         error.put("message", ex.getMessage());
-        error.put("status", HttpStatus.BAD_REQUEST.value());
-
-        return Mono.just(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error));
-    }
-
-    @ExceptionHandler(NoEncontradoException.class)
-    public Mono<ResponseEntity<Map<String, Object>>> handleGenericError(NoEncontradoException ex) {
-        Map<String, Object> error = new HashMap<>();
-        error.put("error", "No encontrado");
-        error.put("message", ex.getMessage());
-        error.put("status", HttpStatus.NOT_FOUND.value());
-        return Mono.just(ResponseEntity.status(HttpStatus.NOT_FOUND).body(error));
+        error.put("status", ex.getHttpCodigo());
+        return Mono.just(ResponseEntity.status(HttpStatus.valueOf(ex.getHttpCodigo())).body(error));
     }
 }

@@ -27,6 +27,7 @@ public class UsuarioReactiveRepositoryAdapter extends ReactiveAdapterOperations<
 
     @Override
     public Mono<Usuario> registrar(Usuario usuario) {
+        logger.debug("Se realiza peticion de creación de nuevo usuario con parametros {}", usuario);
         UsuarioEntity entity = mapper.map(usuario, UsuarioEntity.class);
         return repository.save(entity)
                 .map(saved -> {
@@ -37,11 +38,13 @@ public class UsuarioReactiveRepositoryAdapter extends ReactiveAdapterOperations<
 
     @Override
     public Mono<Usuario> buscarPorEmail(String email) {
+        logger.debug("Se inicia busqueda de usuario por email con valor {}", email);
         return super.repository.buscarUsuarioPorEmail(email);
     }
 
     @Override
-    public Mono<Usuario> buscarPorDocumentIdentidad(String documentIdentidad) {
+    public Mono<Usuario> buscarPorDocumentoIdentidad(String documentIdentidad) {
+        logger.debug("Se inicia busqueda de usuario por documento con valor {}", documentIdentidad);
         return super.repository.buscarUsuarioPorDocumentoIdentidad(documentIdentidad);
     }
 }

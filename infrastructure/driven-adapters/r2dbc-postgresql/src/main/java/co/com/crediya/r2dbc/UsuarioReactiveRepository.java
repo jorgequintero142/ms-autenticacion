@@ -9,7 +9,7 @@ import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import reactor.core.publisher.Mono;
 
 public interface UsuarioReactiveRepository extends ReactiveCrudRepository<UsuarioEntity, Integer>, ReactiveQueryByExampleExecutor<UsuarioEntity> {
-    @Query("SELECT id_usuario FROM usuario WHERE email = :email")
+    @Query("SELECT * FROM usuario WHERE email = :email")
     Mono<Usuario> buscarUsuarioPorEmail(@Param("email") String email);
 
     @Query("SELECT * FROM usuario WHERE documento_identidad = :documentoIdentidad")

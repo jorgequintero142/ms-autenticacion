@@ -93,7 +93,7 @@ public class UsuarioHandler {
 
 
     @Operation(
-            summary = "Obtener usuario por Numero de dcumento",
+            summary = "Obtener usuario por Numero de documento",
             tags = {"Usuarios"},
             parameters = {
                     @Parameter(

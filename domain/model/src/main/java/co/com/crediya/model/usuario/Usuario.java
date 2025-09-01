@@ -15,7 +15,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder(toBuilder = true)
 public class Usuario {
-    private Integer idUsuario;
     private String nombre;
     private String apellido;
     private String email;
@@ -24,5 +23,4 @@ public class Usuario {
     private String direccion;
     private String telefono;
     private BigDecimal salarioBase;
-
 }
