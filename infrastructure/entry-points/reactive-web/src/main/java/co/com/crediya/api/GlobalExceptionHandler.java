@@ -16,8 +16,8 @@ public class GlobalExceptionHandler {
     public Mono<ResponseEntity<Map<String, Object>>> manejarErrores(AutenticacionException ex) {
         Map<String, Object> error = new HashMap<>();
         error.put("error", ex.getError());
-        error.put("message", ex.getMessage());
-        error.put("status", ex.getCodigoEstado());
+        error.put("mensaje", ex.getMessage());
+        error.put("estado", ex.getCodigoEstado());
         return Mono.just(ResponseEntity.status(HttpStatus.valueOf(ex.getCodigoEstado())).body(error));
     }
 }

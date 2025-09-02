@@ -1,5 +1,6 @@
 package co.com.crediya.api;
 
+import co.com.crediya.api.dto.RespuestaApi;
 import co.com.crediya.model.usuario.Usuario;
 import co.com.crediya.usecase.buscarusuario.BuscarUsuarioUseCase;
 import co.com.crediya.usecase.registrarusuario.RegistrarUsuarioUseCase;
@@ -23,6 +24,8 @@ import reactor.core.publisher.Mono;
 public class UsuarioHandler {
     private final RegistrarUsuarioUseCase registrarUsuarioCase;
     private final BuscarUsuarioUseCase buscarUsuarioUseCase;
+    private final String USUARIO_CREADO = "Usuario creado";
+    private final int CODIGO_
 
     @Operation(
             summary = "Crear un nuevo usuario",
@@ -86,9 +89,11 @@ public class UsuarioHandler {
     public Mono<ServerResponse> registrar(ServerRequest serverRequest) {
         return serverRequest.bodyToMono(Usuario.class)
                 .flatMap(registrarUsuarioCase::registrar)
-                .flatMap(savedUser -> ServerResponse.ok()
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .bodyValue(savedUser));
+                .flatMap(usuarioGuardado -> {
+                    RespuestaApi<Usuario> respuesta = new RespuestaApi<>(200, "Usuario Creado", usuarioGuardado);
+                    return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).bodyValue(respuesta);
+                });
+
     }
 
 
