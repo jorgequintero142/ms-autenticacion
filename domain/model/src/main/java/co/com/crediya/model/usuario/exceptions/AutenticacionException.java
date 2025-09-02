@@ -2,9 +2,6 @@ package co.com.crediya.model.usuario.exceptions;
 
 import lombok.Getter;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @Getter
 public abstract class AutenticacionException extends Exception {
     protected final String error;

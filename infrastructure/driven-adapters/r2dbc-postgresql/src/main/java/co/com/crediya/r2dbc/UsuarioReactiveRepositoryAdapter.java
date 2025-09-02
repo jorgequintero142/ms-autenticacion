@@ -6,6 +6,7 @@ import co.com.crediya.r2dbc.entity.UsuarioEntity;
 import co.com.crediya.r2dbc.helper.ReactiveAdapterOperations;
 import org.reactivecommons.utils.ObjectMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.reactive.TransactionalOperator;
 import reactor.core.publisher.Mono;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,9 +20,11 @@ public class UsuarioReactiveRepositoryAdapter extends ReactiveAdapterOperations<
 
         > implements UsuarioRepository {
     private static final Logger logger = LoggerFactory.getLogger(UsuarioReactiveRepositoryAdapter.class);
+    private final TransactionalOperator operadorTransaccion;
 
-    public UsuarioReactiveRepositoryAdapter(UsuarioReactiveRepository repository, ObjectMapper mapper) {
+    public UsuarioReactiveRepositoryAdapter(UsuarioReactiveRepository repository, ObjectMapper mapper, TransactionalOperator operadorTransaccion) {
         super(repository, mapper, d -> mapper.map(d, Usuario.class));
+        this.operadorTransaccion = operadorTransaccion;
     }
 
 
@@ -30,9 +33,8 @@ public class UsuarioReactiveRepositoryAdapter extends ReactiveAdapterOperations<
         logger.debug("Se realiza peticion de creación de nuevo usuario con parametros {}", usuario);
         UsuarioEntity entity = mapper.map(usuario, UsuarioEntity.class);
         return repository.save(entity)
-                .map(saved -> {
-                    return mapper.map(saved, Usuario.class);
-                })
+                .map(saved -> mapper.map(saved, Usuario.class))
+                .as(operadorTransaccion::transactional)
                 .doOnNext(u -> logger.debug("Se ha registrado un nuevo usuario"));
     }
 

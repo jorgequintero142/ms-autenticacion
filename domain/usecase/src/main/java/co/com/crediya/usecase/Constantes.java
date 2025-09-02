@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 
 public class Constantes {
 
+    private Constantes() {
+    }
 
     public static final String REGEX_ALPHA = "^[a-zA-Z]+$";
     public static final String REGEX_TELEFONO = "^3\\d{9}$";

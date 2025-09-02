@@ -12,7 +12,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
-import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -24,8 +23,8 @@ import reactor.core.publisher.Mono;
 public class UsuarioHandler {
     private final RegistrarUsuarioUseCase registrarUsuarioCase;
     private final BuscarUsuarioUseCase buscarUsuarioUseCase;
-    private final String USUARIO_CREADO = "Usuario creado";
-    private final int CODIGO_
+    private static final String USUARIO_CREADO = "Usuario creado";
+    private static final int CODIGO_ESTADO = 200;
 
     @Operation(
             summary = "Crear un nuevo usuario",
@@ -35,17 +34,19 @@ public class UsuarioHandler {
                     required = true,
                     content = @Content(
                             schema = @Schema(
-                                    example = "{\n" +
-                                            "\n" +
-                                            "  \"nombre\": \"jorge\",\n" +
-                                            "  \"apellido\": \"quintero\",\n" +
-                                            "  \"email\": \"jorgequintero142@gmail.com\",\n" +
-                                            "  \"documentoIdentidad\": \"101559999\",\n" +
-                                            "  \"fechaNacimiento\": \"1986-08-28\",\n" +
-                                            "  \"direccion\": \"calle 123 23-23\",\n" +
-                                            "  \"telefono\": \"3001231212\",\n" +
-                                            "  \"salarioBase\": 1500000\n" +
-                                            "}"
+                                    example = """
+                                            {
+                                              "idUsuario": 9,
+                                              "nombre": "jorge",
+                                              "apellido": "quintero",
+                                              "email": "jorgequintero142@gmail.com",
+                                              "documentoIdentidad": "101559999",
+                                              "fechaNacimiento": "1986-08-28",
+                                              "direccion": "calle 123 23-23",
+                                              "telefono": "3001231212",
+                                              "salarioBase": 1500000
+                                            }
+                                            """
                             )
                     )
             ),
@@ -55,17 +56,19 @@ public class UsuarioHandler {
                             description = "Usuario creado",
                             content = @Content(
                                     schema = @Schema(
-                                            example = "{\n" +
-                                                    "  \"idUsuario\": 9,\n" +
-                                                    "  \"nombre\": \"jorge\",\n" +
-                                                    "  \"apellido\": \"quintero\",\n" +
-                                                    "  \"email\": \"jorgequintero142@gmail.com\",\n" +
-                                                    "  \"documentoIdentidad\": \"101559999\",\n" +
-                                                    "  \"fechaNacimiento\": \"1986-08-28\",\n" +
-                                                    "  \"direccion\": \"calle 123 23-23\",\n" +
-                                                    "  \"telefono\": \"3001231212\",\n" +
-                                                    "  \"salarioBase\": 1500000\n" +
-                                                    "}"
+                                            example = """
+                                                    {
+                                                      "idUsuario": 9,
+                                                      "nombre": "jorge",
+                                                      "apellido": "quintero",
+                                                      "email": "jorgequintero142@gmail.com",
+                                                      "documentoIdentidad": "101559999",
+                                                      "fechaNacimiento": "1986-08-28",
+                                                      "direccion": "calle 123 23-23",
+                                                      "telefono": "3001231212",
+                                                      "salarioBase": 1500000
+                                                    }
+                                                    """
                                     )
                             )
                     ),
@@ -76,11 +79,13 @@ public class UsuarioHandler {
                                     mediaType = "application/json",
                                     schema = @Schema(
                                             description = "Respuesta de error",
-                                            example = "     {\n" +
-                                                    "  \"error\": \"Validación fallida\",\n" +
-                                                    "  \"message\": \"Fecha de nacimiento no tiene un formato válido\",\n" +
-                                                    "  \"status\": 400\n" +
-                                                    "}"
+                                            example = """
+                                                    {
+                                                      "error": "Validación fallida",
+                                                      "message": "Fecha de nacimiento no tiene un formato válido",
+                                                      "status": 400
+                                                    }
+                                                    """
                                     )
                             )
                     )
@@ -90,7 +95,7 @@ public class UsuarioHandler {
         return serverRequest.bodyToMono(Usuario.class)
                 .flatMap(registrarUsuarioCase::registrar)
                 .flatMap(usuarioGuardado -> {
-                    RespuestaApi<Usuario> respuesta = new RespuestaApi<>(200, "Usuario Creado", usuarioGuardado);
+                    RespuestaApi<Usuario> respuesta = new RespuestaApi<>(UsuarioHandler.CODIGO_ESTADO, UsuarioHandler.USUARIO_CREADO, usuarioGuardado);
                     return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).bodyValue(respuesta);
                 });
 

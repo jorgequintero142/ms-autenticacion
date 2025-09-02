@@ -13,7 +13,7 @@ import reactor.test.StepVerifier;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class BuscarUsuarioTest {
+class BuscarUsuarioTest {
     
     private BuscarUsuarioUseCase buscarUsuarioUseCase;
     private UsuarioRepository usuarioRepository;

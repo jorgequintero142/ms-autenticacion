@@ -4,7 +4,6 @@ import co.com.crediya.model.usuario.Usuario;
 import co.com.crediya.model.usuario.exceptions.ParametroNoValidoException;
 import co.com.crediya.model.usuario.gateways.UsuarioRepository;
 import co.com.crediya.usecase.Constantes;
-import co.com.crediya.usecase.buscarusuario.BuscarUsuarioUseCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -21,7 +20,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.ArgumentMatchers.any;
 
-public class RegistrarUsuarioTest {
+class RegistrarUsuarioTest {
     private RegistrarUsuarioUseCase registrarUsuarioUseCase;
     private UsuarioRepository usuarioRepository;
 

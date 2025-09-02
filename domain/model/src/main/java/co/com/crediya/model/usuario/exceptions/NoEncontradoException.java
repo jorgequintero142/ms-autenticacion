@@ -1,9 +1,9 @@
 package co.com.crediya.model.usuario.exceptions;
 
 public class NoEncontradoException extends AutenticacionException {
-    static final String ERROR = "No encontrado";
+    static final String MENSAJE = "No encontrado";
 
-    public NoEncontradoException(String mensaje) {
-        super(mensaje, NoEncontradoException.ERROR, NoEncontradoException.ESTADO_NO_ENCONTRADO);
+    public NoEncontradoException(String error) {
+        super(error, NoEncontradoException.MENSAJE, AutenticacionException.ESTADO_NO_ENCONTRADO);
     }
 }
