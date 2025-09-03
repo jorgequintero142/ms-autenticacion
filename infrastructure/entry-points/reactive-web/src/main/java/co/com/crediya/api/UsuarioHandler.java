@@ -24,6 +24,7 @@ public class UsuarioHandler {
     private final RegistrarUsuarioUseCase registrarUsuarioCase;
     private final BuscarUsuarioUseCase buscarUsuarioUseCase;
     private static final String USUARIO_CREADO = "Usuario creado";
+    private static final String USUARIO_ENCONTRADO = "Usuario encontrado";
     private static final int CODIGO_ESTADO_OK = 200;
 
     @Operation(
@@ -127,7 +128,13 @@ public class UsuarioHandler {
                                     mediaType = "application/json",
                                     schema = @Schema(
                                             description = "Respuesta de error",
-                                            example = "{ \"error\": \"No encontrado\", \"message\": \"Usuario no encontrado con documento: 123456\", \"status\": 404 }"
+                                            example = """
+                                                    {
+                                                      "error": "No encontrado",
+                                                      "message": "Usuario no encontrado con documento: 123456",
+                                                      "status": 404
+                                                    }
+                                                    """
                                     )
                             ))
             }
@@ -136,9 +143,9 @@ public class UsuarioHandler {
         String documentoIdentidad = serverRequest.pathVariable("documentoIdentidad");
 
         return buscarUsuarioUseCase.buscarPorDocumentoIdentidad(documentoIdentidad)
-                .flatMap(task -> ServerResponse.ok()
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .bodyValue(task))
-                .switchIfEmpty(ServerResponse.notFound().build());
+                .flatMap(usuario -> {
+                    RespuestaApi<Usuario> respuesta = new RespuestaApi<>(UsuarioHandler.CODIGO_ESTADO_OK, UsuarioHandler.USUARIO_ENCONTRADO, usuario);
+                    return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).bodyValue(respuesta);
+                });
     }
 }
