@@ -32,5 +32,8 @@ public class Constantes {
     public static final String USUARIO_NO_ENCONTRADO_EMAIL = "No se encontró usuario con el email enviado";
     public static final String USUARIO_NO_ENCONTRADO_NUMERO_DOCUMENTO = "No se encontró usuario con el número de documento enviado";
 
+    public static final String ERROR_INESPERADO = "Error inesperado";
+    public static final String MENSAJE_ERROR_INESPERADO = "Intente más tarde";
+    public static final int CODIGO_ERROR_INESPERADO = 409;
 
 }

@@ -1,9 +1,11 @@
 package co.com.crediya.api.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 public class RespuestaApi<T> {
     private int estado;

@@ -24,7 +24,7 @@ public class UsuarioHandler {
     private final RegistrarUsuarioUseCase registrarUsuarioCase;
     private final BuscarUsuarioUseCase buscarUsuarioUseCase;
     private static final String USUARIO_CREADO = "Usuario creado";
-    private static final int CODIGO_ESTADO = 200;
+    private static final int CODIGO_ESTADO_OK = 200;
 
     @Operation(
             summary = "Crear un nuevo usuario",
@@ -58,15 +58,18 @@ public class UsuarioHandler {
                                     schema = @Schema(
                                             example = """
                                                     {
-                                                      "idUsuario": 9,
-                                                      "nombre": "jorge",
-                                                      "apellido": "quintero",
-                                                      "email": "jorgequintero142@gmail.com",
-                                                      "documentoIdentidad": "101559999",
-                                                      "fechaNacimiento": "1986-08-28",
-                                                      "direccion": "calle 123 23-23",
-                                                      "telefono": "3001231212",
-                                                      "salarioBase": 1500000
+                                                      "estado": 200,
+                                                      "mensaje": "Solicitud creada",
+                                                      "data": {
+                                                        "monto": 100000,
+                                                        "plazo": 6,
+                                                        "documentoIdentidad": "1756783216",
+                                                        "idTipoPrestamo": 3,
+                                                        "email": "Verna63@gmail.com",
+                                                        "idEstado": 1,
+                                                        "estado": "Pendiente de revisión",
+                                                        "tipoPrestamo": "Vehicular"
+                                                      }
                                                     }
                                                     """
                                     )
@@ -95,7 +98,7 @@ public class UsuarioHandler {
         return serverRequest.bodyToMono(Usuario.class)
                 .flatMap(registrarUsuarioCase::registrar)
                 .flatMap(usuarioGuardado -> {
-                    RespuestaApi<Usuario> respuesta = new RespuestaApi<>(UsuarioHandler.CODIGO_ESTADO, UsuarioHandler.USUARIO_CREADO, usuarioGuardado);
+                    RespuestaApi<Usuario> respuesta = new RespuestaApi<>(UsuarioHandler.CODIGO_ESTADO_OK, UsuarioHandler.USUARIO_CREADO, usuarioGuardado);
                     return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).bodyValue(respuesta);
                 });
 
