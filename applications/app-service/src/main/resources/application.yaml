@@ -42,3 +42,6 @@ springdoc:
 jwt:
   secret-key: "SoyJorgeYMeGustaElBootCampaDePragma2025"
   expiracion: 3600000
+logging:
+  level:
+    co.com.crediya: INFO

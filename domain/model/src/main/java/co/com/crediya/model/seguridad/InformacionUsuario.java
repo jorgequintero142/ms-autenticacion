@@ -1,7 +1,5 @@
 package co.com.crediya.model.seguridad;
 import lombok.*;
-//import lombok.NoArgsConstructor;
-
 
 @Getter
 @Setter

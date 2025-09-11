@@ -23,12 +23,9 @@ public class SecurityConfig {
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
         return http
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
-                .httpBasic().disable()
-                .formLogin().disable()
                 .authorizeExchange(exchanges -> exchanges
 
-                        .pathMatchers("/api/v1/login").permitAll()
-                        .pathMatchers("/api/v1/validartoken").authenticated()
+                        .pathMatchers("/api/v1/login","/api/v1/token").permitAll()
                         .pathMatchers("/api/v1/usuarios").hasAnyRole("Administrador", "Asesor")
                         .pathMatchers(
                                 "/api-docs/**",

@@ -1,12 +1,9 @@
 package co.com.crediya.api;
 
 import co.com.crediya.api.dto.RespuestaApi;
-//import co.com.crediya.model.seguridad.TokenGenerado;
 import co.com.crediya.model.seguridad.TokenGenerado;
 import co.com.crediya.model.usuario.Usuario;
 import co.com.crediya.model.usuario.UsuarioCreado;
-//import co.com.crediya.usecase.autenticarusuario.AutenticarUsuarioUseCase;
-//import co.com.crediya.usecase.autenticarusuario.Credenciales;
 import co.com.crediya.usecase.autenticarusuario.AutenticarUsuarioUseCase;
 import co.com.crediya.usecase.autenticarusuario.Credenciales;
 import co.com.crediya.usecase.buscarusuario.BuscarUsuarioUseCase;
@@ -18,6 +15,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -42,6 +40,7 @@ public class UsuarioHandler {
             summary = "Crear un nuevo usuario",
             tags = {"Usuarios"},
             description = "Crea un nuevo usuario en el sistema",
+            security = @SecurityRequirement(name = "bearerAuth"),
             requestBody = @RequestBody(
                     required = true,
                     content = @Content(
@@ -194,10 +193,7 @@ public class UsuarioHandler {
                                             RespuestaApi<TokenGenerado> respuesta = new RespuestaApi<>(UsuarioHandler.CODIGO_ESTADO_OK, UsuarioHandler.AUTENTICACION_EXITO, token);
                                             return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).bodyValue(respuesta);
                                         }
-
-
                                 )
                 );
     }
-
 }

@@ -7,16 +7,11 @@ public abstract class AutenticacionException extends Exception {
     protected final String error;
     protected final int codigoEstado;
 
-    /**
-     * Se definen estas constantes para que a nivel de
-     * dominio no se importe las clases del paquete
-     * http de spring
-     */
     protected static final int ESTADO_NO_ENCONTRADO = 404;
     protected static final int ESTADO_ERROR_PARAMETRO = 400;
     protected static final int ESTADO_AUTENTICACION = 401;
 
-    public AutenticacionException(String error, String mensaje, int codigoEstado) {
+    protected AutenticacionException(String error, String mensaje, int codigoEstado) {
         super(mensaje);
         this.error = error;
         this.codigoEstado = codigoEstado;

@@ -27,7 +27,7 @@ public class JwtFilter implements WebFilter {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
         String path = exchange.getRequest().getPath().toString();
-         if (path.equals("/api/v1/login") || path.equals("/api/v1/validatoken")|| path.startsWith("/webjars/swagger-ui/")
+         if (path.equals("/api/v1/login") || path.equals("/api/v1/token")|| path.startsWith("/webjars/swagger-ui/")
                 || path.startsWith("/api-docs")) {
             return chain.filter(exchange);
         }

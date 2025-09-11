@@ -25,17 +25,24 @@ public class RouterRest {
                     method = RequestMethod.GET,
                     beanClass = UsuarioHandler.class,
                     beanMethod = "buscarPorDocumento"
+            ),
+            @RouterOperation(
+                    path = "/api/v1/token",
+                    produces = {"application/json"},
+                    method = RequestMethod.GET,
+                    beanClass = AutenticacionHandler.class,
+                    beanMethod = "validar"
             )
     })
-    public RouterFunction<ServerResponse> routerFunction(UsuarioHandler usuarioHandler
-          //  , AutenticacionHandler autenticacionHandler
+    public RouterFunction<ServerResponse> routerFunction(UsuarioHandler usuarioHandler,
+                                                         AutenticacionHandler autenticacionHandler
     ) {
 
         return RouterFunctions.route()
                 .POST("/api/v1/login", usuarioHandler::autenticar)
                 .POST("/api/v1/usuarios", usuarioHandler::registrar)
                 .GET("/api/v1/usuarios/{documentoIdentidad}", usuarioHandler::buscarPorDocumento)
-                //.GET("/api/v1/validartoken", autenticacionHandler::validar)
+                .GET("/api/v1/token", autenticacionHandler::validar)
                 .build();
 
     }
