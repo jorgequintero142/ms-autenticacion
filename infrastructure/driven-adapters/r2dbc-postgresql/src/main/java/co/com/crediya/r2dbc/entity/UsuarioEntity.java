@@ -1,10 +1,9 @@
 package co.com.crediya.r2dbc.entity;
 
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
-
-import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -30,5 +29,8 @@ public class UsuarioEntity {
     private LocalDate fechaNacimiento;
     private String direccion;
     private String telefono;
+    @Column("id_rol")
+    private int idRol;
+    private String contrasenia;
 
 }

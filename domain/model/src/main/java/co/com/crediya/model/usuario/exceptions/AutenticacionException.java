@@ -14,6 +14,7 @@ public abstract class AutenticacionException extends Exception {
      */
     static final int ESTADO_NO_ENCONTRADO = 404;
     static final int ESTADO_ERROR_PARAMETRO = 400;
+    static final int ESTADO_AUTENTICACION = 401;
 
     AutenticacionException(String error, String mensaje, int codigoEstado) {
         super(mensaje);

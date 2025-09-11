@@ -5,11 +5,11 @@ import co.com.crediya.model.usuario.gateways.UsuarioRepository;
 import co.com.crediya.r2dbc.entity.UsuarioEntity;
 import co.com.crediya.r2dbc.helper.ReactiveAdapterOperations;
 import org.reactivecommons.utils.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.reactive.TransactionalOperator;
 import reactor.core.publisher.Mono;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Repository
 public class UsuarioReactiveRepositoryAdapter extends ReactiveAdapterOperations<
@@ -30,7 +30,8 @@ public class UsuarioReactiveRepositoryAdapter extends ReactiveAdapterOperations<
 
     @Override
     public Mono<Usuario> registrar(Usuario usuario) {
-        logger.debug("Se realiza peticion de creación de nuevo usuario con parametros {}", usuario);
+        logger.warn("Se realiza peticion de creación de nuevo usuario con parametros {}", usuario);
+        logger.debug("Se realiza debug de peticion de creación de nuevo usuario con parametros {}", usuario);
         UsuarioEntity entity = mapper.map(usuario, UsuarioEntity.class);
         return repository.save(entity)
                 .map(saved -> mapper.map(saved, Usuario.class))
@@ -40,13 +41,13 @@ public class UsuarioReactiveRepositoryAdapter extends ReactiveAdapterOperations<
 
     @Override
     public Mono<Usuario> buscarPorEmail(String email) {
-        logger.debug("Se inicia busqueda de usuario por email con valor {}", email);
+        logger.warn("Se inicia busqueda de usuario por email con valor {}", email);
         return super.repository.buscarUsuarioPorEmail(email);
     }
 
     @Override
     public Mono<Usuario> buscarPorDocumentoIdentidad(String documentIdentidad) {
-        logger.debug("Se inicia busqueda de usuario por documento con valor {}", documentIdentidad);
+        logger.warn("Se inicia busqueda de usuario por documento con valor {}", documentIdentidad);
         return super.repository.buscarUsuarioPorDocumentoIdentidad(documentIdentidad);
     }
 }

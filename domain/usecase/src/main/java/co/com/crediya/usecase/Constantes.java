@@ -36,4 +36,12 @@ public class Constantes {
     public static final String MENSAJE_ERROR_INESPERADO = "Intente más tarde";
     public static final int CODIGO_ERROR_INESPERADO = 409;
 
+    public static final String ERROR_ROL = "No existe el rol enviado";
+
+    public static final String ERROR_NO_TOKEN = "No se envío token";
+    public static final String ERROR_TOKEN_INVALIDO = "Token con error";
+    public static final String ERROR_ROL_NECESARIO = "No tienes el rol necesario para realizar esta acción";
+
+    public static final String USUARIO_NO_ENCONTRADO = "Usuario no encontrado";
+    public static final String CONTRASENIA_INCORRECTA = "Contraseña incorrecta";
 }

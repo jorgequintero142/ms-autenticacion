@@ -2,25 +2,21 @@ package co.com.crediya.model.usuario;
 
 import lombok.*;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder(toBuilder = true)
 @ToString
-public class Usuario {
+@Builder(toBuilder = true)
+public class UsuarioCreado {
     private String nombre;
     private String apellido;
     private String email;
     private String documentoIdentidad;
-    private LocalDate fechaNacimiento;
+    private java.time.LocalDate fechaNacimiento;
     private String direccion;
     private String telefono;
-    private BigDecimal salarioBase;
-    private int idRol;
+    private java.math.BigDecimal salarioBase;
     private String contrasenia;
+    private String nombreRol;
 }
-
