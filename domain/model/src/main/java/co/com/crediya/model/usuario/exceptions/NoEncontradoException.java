@@ -1,5 +1,7 @@
 package co.com.crediya.model.usuario.exceptions;
 
+import co.com.crediya.model.exceptions.AutenticacionException;
+
 public class NoEncontradoException extends AutenticacionException {
     static final String MENSAJE = "No encontrado";
 

@@ -1,4 +1,4 @@
-package co.com.crediya.model.usuario.exceptions;
+package co.com.crediya.model.seguridad.exceptions;
 
 import co.com.crediya.model.exceptions.AutenticacionException;
 

@@ -1,4 +1,4 @@
-package co.com.crediya.model.usuario.exceptions;
+package co.com.crediya.model.exceptions;
 
 import lombok.Getter;
 
@@ -12,11 +12,11 @@ public abstract class AutenticacionException extends Exception {
      * dominio no se importe las clases del paquete
      * http de spring
      */
-    static final int ESTADO_NO_ENCONTRADO = 404;
-    static final int ESTADO_ERROR_PARAMETRO = 400;
-    static final int ESTADO_AUTENTICACION = 401;
+    protected static final int ESTADO_NO_ENCONTRADO = 404;
+    protected static final int ESTADO_ERROR_PARAMETRO = 400;
+    protected static final int ESTADO_AUTENTICACION = 401;
 
-    AutenticacionException(String error, String mensaje, int codigoEstado) {
+    public AutenticacionException(String error, String mensaje, int codigoEstado) {
         super(mensaje);
         this.error = error;
         this.codigoEstado = codigoEstado;

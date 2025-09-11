@@ -1,6 +1,6 @@
 package co.com.crediya.api;
 
-import co.com.crediya.model.usuario.exceptions.AutenticacionException;
+import co.com.crediya.model.exceptions.AutenticacionException;
 import co.com.crediya.usecase.Constantes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
