@@ -39,3 +39,6 @@ springdoc:
   swagger-ui:
     enabled: true
     path: /swagger-ui.html
+jwt:
+  secret-key: "SoyJorgeYMeGustaElBootCampaDePragma2025"
+  expiracion: 3600000

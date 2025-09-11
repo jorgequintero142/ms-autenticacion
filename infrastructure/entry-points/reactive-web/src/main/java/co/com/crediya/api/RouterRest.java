@@ -32,7 +32,7 @@ public class RouterRest {
     ) {
 
         return RouterFunctions.route()
-                //.POST("/api/v1/login", usuarioHandler::autenticar)
+                .POST("/api/v1/login", usuarioHandler::autenticar)
                 .POST("/api/v1/usuarios", usuarioHandler::registrar)
                 .GET("/api/v1/usuarios/{documentoIdentidad}", usuarioHandler::buscarPorDocumento)
                 //.GET("/api/v1/validartoken", autenticacionHandler::validar)

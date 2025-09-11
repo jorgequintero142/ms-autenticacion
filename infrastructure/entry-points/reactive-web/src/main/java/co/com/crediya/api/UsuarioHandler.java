@@ -2,10 +2,13 @@ package co.com.crediya.api;
 
 import co.com.crediya.api.dto.RespuestaApi;
 //import co.com.crediya.model.seguridad.TokenGenerado;
+import co.com.crediya.model.seguridad.TokenGenerado;
 import co.com.crediya.model.usuario.Usuario;
 import co.com.crediya.model.usuario.UsuarioCreado;
 //import co.com.crediya.usecase.autenticarusuario.AutenticarUsuarioUseCase;
 //import co.com.crediya.usecase.autenticarusuario.Credenciales;
+import co.com.crediya.usecase.autenticarusuario.AutenticarUsuarioUseCase;
+import co.com.crediya.usecase.autenticarusuario.Credenciales;
 import co.com.crediya.usecase.buscarusuario.BuscarUsuarioUseCase;
 import co.com.crediya.usecase.registrarusuario.RegistrarUsuarioUseCase;
 import io.swagger.v3.oas.annotations.Operation;
@@ -26,7 +29,7 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class UsuarioHandler {
     private final RegistrarUsuarioUseCase registrarUsuarioCase;
-    // private final AutenticarUsuarioUseCase autenticarUsuarioUseCase;
+    private final AutenticarUsuarioUseCase autenticarUsuarioUseCase;
     private final BuscarUsuarioUseCase buscarUsuarioUseCase;
 
     private static final String USUARIO_CREADO = "Usuario creado";
@@ -180,7 +183,7 @@ public class UsuarioHandler {
                 });
     }
 
-    /*
+
     public Mono<ServerResponse> autenticar(ServerRequest serverRequest) {
         return serverRequest.bodyToMono(Credenciales.class)
                 .flatMap(credenciales ->
@@ -196,5 +199,5 @@ public class UsuarioHandler {
                                 )
                 );
     }
-    */
+
 }
