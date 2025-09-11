@@ -1,29 +1,33 @@
 package co.com.crediya.usecase.registrarusuario;
 
+
+import co.com.crediya.model.usuario.Rol;
 import co.com.crediya.model.usuario.Usuario;
 import co.com.crediya.model.usuario.exceptions.ParametroNoValidoException;
+import co.com.crediya.model.usuario.gateways.RolRepository;
 import co.com.crediya.model.usuario.gateways.UsuarioRepository;
 import co.com.crediya.usecase.Constantes;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.mockito.ArgumentMatchers.any;
 
 class RegistrarUsuarioTest {
     private RegistrarUsuarioUseCase registrarUsuarioUseCase;
     private UsuarioRepository usuarioRepository;
-
+    private RolRepository rolRepository;
+    private Rol rolCliente, rolAsesor;
 
     private Usuario crearUsuarioValido() {
         Usuario usuario = new Usuario();
@@ -33,31 +37,51 @@ class RegistrarUsuarioTest {
         usuario.setDocumentoIdentidad("101231211");
         usuario.setFechaNacimiento(LocalDate.now().minusYears(39));
         usuario.setTelefono("3001231212");
+        usuario.setDireccion("Calle 123");
+        usuario.setIdRol(3);
+        usuario.setContrasenia("pass123");
         usuario.setSalarioBase(BigDecimal.valueOf(2000));
         return usuario;
     }
 
+
     @BeforeEach
     void setUp() {
         usuarioRepository = Mockito.mock(UsuarioRepository.class);
-        registrarUsuarioUseCase = new RegistrarUsuarioUseCase(usuarioRepository);
+        rolRepository = Mockito.mock(RolRepository.class);
+
+        registrarUsuarioUseCase = new RegistrarUsuarioUseCase(usuarioRepository, rolRepository);
+
+        rolCliente = new Rol();
+        rolCliente.setIdRol(3);
+        rolCliente.setNombre("Cliente");
+
+        rolAsesor = new Rol();
+        rolAsesor.setIdRol(2);
+        rolAsesor.setNombre("Asesor");
 
         when(usuarioRepository.buscarPorEmail(anyString())).thenReturn(Mono.empty());
         when(usuarioRepository.buscarPorDocumentoIdentidad(anyString())).thenReturn(Mono.empty());
+        when(rolRepository.listarTodos()).thenReturn(Flux.just(rolCliente, rolAsesor));
     }
 
 
     @Test
     void registarConExito() {
-        Usuario usuario = this.crearUsuarioValido();
+        Usuario usuario = crearUsuarioValido();
+
         when(usuarioRepository.buscarPorEmail(usuario.getEmail())).thenReturn(Mono.empty());
         when(usuarioRepository.buscarPorDocumentoIdentidad(usuario.getDocumentoIdentidad())).thenReturn(Mono.empty());
         when(usuarioRepository.registrar(any(Usuario.class))).thenReturn(Mono.just(usuario));
 
-
         StepVerifier.create(registrarUsuarioUseCase.registrar(usuario))
-                .expectNext(usuario)
+                .expectNextMatches(u ->
+                        u.getNombre().equals(usuario.getNombre()) &&
+                                u.getApellido().equals(usuario.getApellido()) &&
+                                u.getNombreRol().equals("Cliente")
+                )
                 .verifyComplete();
+
         verify(usuarioRepository).registrar(usuario);
     }
 

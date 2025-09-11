@@ -1,5 +1,4 @@
 package co.com.crediya.usecase.buscarusuario;
-
 import co.com.crediya.model.usuario.Usuario;
 import co.com.crediya.model.usuario.exceptions.NoEncontradoException;
 import co.com.crediya.model.usuario.gateways.UsuarioRepository;
@@ -14,7 +13,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 class BuscarUsuarioTest {
-    
+
+
     private BuscarUsuarioUseCase buscarUsuarioUseCase;
     private UsuarioRepository usuarioRepository;
 
@@ -59,18 +59,18 @@ class BuscarUsuarioTest {
     void buscarEmailNoEncontrado() {
 
 
-        String documento = "123456";
-        when(usuarioRepository.buscarPorDocumentoIdentidad(documento))
+        String documento = "emailnotfoudn@mail.com";
+        when(usuarioRepository.buscarPorEmail(documento))
                 .thenReturn(Mono.empty());
 
 
-        StepVerifier.create(buscarUsuarioUseCase.buscarPorDocumentoIdentidad(documento))
+        StepVerifier.create(buscarUsuarioUseCase.buscarPorEmail(documento))
                 .expectErrorMatches(throwable ->
                         throwable instanceof NoEncontradoException &&
                                 throwable.getMessage().equals("No encontrado")
                 )
                 .verify();
 
-        verify(usuarioRepository).buscarPorDocumentoIdentidad(documento);
+        verify(usuarioRepository).buscarPorEmail(documento);
     }
 }
