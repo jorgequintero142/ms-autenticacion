@@ -13,7 +13,8 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 @Configuration
 public class RouterRest {
     @Bean
-    @RouterOperations({@RouterOperation(
+    @RouterOperations({
+            @RouterOperation(
             path = "/api/v1/usuarios",
             method = RequestMethod.POST,
             beanClass = UsuarioHandler.class,
@@ -32,6 +33,13 @@ public class RouterRest {
                     method = RequestMethod.GET,
                     beanClass = AutenticacionHandler.class,
                     beanMethod = "validar"
+            ),
+            @RouterOperation(
+                    path = "/api/v1/login",
+                    produces = {"application/json"},
+                    method = RequestMethod.POST,
+                    beanClass = UsuarioHandler.class,
+                    beanMethod = "autenticar"
             )
     })
     public RouterFunction<ServerResponse> routerFunction(UsuarioHandler usuarioHandler,
