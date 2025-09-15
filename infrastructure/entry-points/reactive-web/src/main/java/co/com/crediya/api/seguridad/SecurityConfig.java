@@ -27,6 +27,7 @@ public class SecurityConfig {
 
                         .pathMatchers("/api/v1/login","/api/v1/token").permitAll()
                         .pathMatchers("/api/v1/usuarios").hasAnyRole("Administrador", "Asesor")
+                        .pathMatchers("/api/v1/usuarios/**").hasAnyRole("Asesor")
                         .pathMatchers(
                                 "/api-docs/**",
                                 "/swagger-ui.html",
