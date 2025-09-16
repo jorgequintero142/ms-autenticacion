@@ -25,12 +25,12 @@ cors:
 
 adapters:
   r2dbc:
-    host: "localhost"
-    port: 5432
-    database: "autenticacion"
+    host: ${DB_HOST}
+    port: ${DB_PORT}
+    database: ${DB_NAME}
     schema: "public"
-    username: "test"
-    password: "P@55w0rd"
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
 
 springdoc:
   api-docs:
